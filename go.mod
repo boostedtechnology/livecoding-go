@@ -3,7 +3,6 @@ module boosted/livecoding
 go 1.23.5
 
 require (
-	github.com/gorilla/mux v1.8.1 // direct
 	gorm.io/driver/sqlite v1.5.7 // direct
 	gorm.io/gorm v1.25.12 // direct
 )

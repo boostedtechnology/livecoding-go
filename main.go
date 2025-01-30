@@ -10,8 +10,6 @@ import (
 	"boosted/livecoding/controllers"
 	"boosted/livecoding/models"
 	"boosted/livecoding/services"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -28,7 +26,7 @@ func main() {
 	accountController := controllers.NewAccountController(accountService)
 
 	// Set up router
-	r := mux.NewRouter()
+	r := http.NewServeMux()
 
 	// Health check endpoint
 	r.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {

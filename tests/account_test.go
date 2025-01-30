@@ -13,7 +13,6 @@ import (
 	"boosted/livecoding/models"
 	"boosted/livecoding/services"
 
-	"github.com/gorilla/mux"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -48,11 +47,12 @@ func TestAccounts(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		vars := map[string]string{"id": fmt.Sprintf("%d", account1.ID)}
-		req = mux.SetURLVars(req, vars)
+
+		mux := http.NewServeMux()
+		controllers.RegisterAccountRoutes(mux, accountController)
 
 		// Act
-		accountController.GetAccount(rr, req)
+		mux.ServeHTTP(rr, req)
 
 		// Assert
 		if status := rr.Code; status != http.StatusOK {
@@ -63,13 +63,16 @@ func TestAccounts(t *testing.T) {
 	t.Run("get all accounts", func(t *testing.T) {
 		// Arrange
 		rr := httptest.NewRecorder()
-		req, err := http.NewRequest("GET", "/accounts", nil)
+		req, err := http.NewRequest("GET", "/accounts/", nil)
 		if err != nil {
 			t.Fatal(err)
 		}
 
+		mux := http.NewServeMux()
+		controllers.RegisterAccountRoutes(mux, accountController)
+
 		// Act
-		accountController.ListAccounts(rr, req)
+		mux.ServeHTTP(rr, req)
 
 		// Assert
 		if status := rr.Code; status != http.StatusOK {
@@ -85,16 +88,17 @@ func TestAccounts(t *testing.T) {
 
 	t.Run("create an account", func(t *testing.T) {
 		// Arrange
-
 		rr := httptest.NewRecorder()
-		req, err := http.NewRequest("POST", "/accounts", bytes.NewBufferString(`{"name": "Test Account", "type": "ASSET"}`))
+		req, err := http.NewRequest("POST", "/accounts/", bytes.NewBufferString(`{"name": "Test Account", "type": "ASSET"}`))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		// Act
+		mux := http.NewServeMux()
+		controllers.RegisterAccountRoutes(mux, accountController)
 
-		accountController.CreateAccount(rr, req)
+		// Act
+		mux.ServeHTTP(rr, req)
 
 		// Assert
 
@@ -117,7 +121,6 @@ func TestAccounts(t *testing.T) {
 
 	t.Run("update an account", func(t *testing.T) {
 		// Arrange
-
 		updatedAccount := models.Account{Name: fmt.Sprintf("Updated %d", rand.Intn(10000)), Type: models.ASSET}
 		jsonBodyData, err := json.Marshal(updatedAccount)
 		if err != nil {
@@ -129,15 +132,14 @@ func TestAccounts(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		vars := map[string]string{"id": fmt.Sprintf("%d", account2.ID)}
-		req = mux.SetURLVars(req, vars)
+
+		mux := http.NewServeMux()
+		controllers.RegisterAccountRoutes(mux, accountController)
 
 		// Act
-
-		accountController.UpdateAccount(rr, req)
+		mux.ServeHTTP(rr, req)
 
 		// Assert
-
 		if status := rr.Code; status != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 		}

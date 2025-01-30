@@ -2,14 +2,12 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
 	"boosted/livecoding/models"
 	"boosted/livecoding/services"
-
-	"github.com/gorilla/mux"
 )
 
 // AccountController handles HTTP requests for accounts
@@ -39,9 +37,9 @@ func (c *AccountController) CreateAccount(w http.ResponseWriter, r *http.Request
 
 // GetAccount handles GET /accounts/{id}
 func (c *AccountController) GetAccount(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(mux.Vars(r)["id"])
+	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
-		fmt.Println("err", err)
+		log.Printf("Error parsing account ID: %v", err)
 		http.Error(w, "Invalid account ID", http.StatusBadRequest)
 		return
 	}
@@ -56,9 +54,9 @@ func (c *AccountController) GetAccount(w http.ResponseWriter, r *http.Request) {
 
 // UpdateAccount handles PUT /accounts/{id}
 func (c *AccountController) UpdateAccount(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(mux.Vars(r)["id"])
+	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
-		fmt.Println("err", err)
+		log.Printf("Error parsing account ID: %v", err)
 		http.Error(w, "Invalid account ID", http.StatusBadRequest)
 		return
 	}
