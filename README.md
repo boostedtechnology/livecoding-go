@@ -32,10 +32,30 @@ Create the service, controller, and routes for the POST /transactions endpoint.
 
 * The models are already created for Transaction and Entry. You may want or need to add GORM tags to improve performance (e.g. indexes, foreign keys, etc. - https://gorm.io/docs/indexes.html).
 
-* Use the /accounts/ endpoint as a guide to implement /transactions/.
+You can decide how to structure the request body, but the following is potential example that shows a transaction with three account entries on the transaction.
 
-* Make sure to include a test for the new endpoint.
-
+```json
+{
+  "description": "Office supplies at Staples",
+  "entries": [
+    {
+      "accountId": "a018f63f-3794-4927-90fa-b62f26892203",
+      "type": "DEBIT",
+      "amount": 12456
+    },
+    {
+      "accountId": "ee51e463-f4f9-4ddf-a2b3-af8e196f851f",
+      "type": "CREDIT",
+      "amount": 10000
+    },
+    {
+      "accountId": "d9e645c9-ff24-4360-9cde-c31fcffa76dc",
+      "type": "CREDIT",
+      "amount": 2456
+    }
+  ]
+}
+```
 
 ## Task 3: Implement GET /accounts/:id/transactions/
 
