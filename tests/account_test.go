@@ -155,4 +155,35 @@ func TestAccounts(t *testing.T) {
 			t.Errorf("handler returned unexpected body: got %v want %v", account.Name, updatedAccount.Name)
 		}
 	})
+
+	t.Run("delete an account", func(t *testing.T) {
+		// Arrange
+		account5 := models.Account{Name: "Office Expenses", Type: models.EXPENSE}
+		accountService.CreateAccount(&account5)
+
+		rr := httptest.NewRecorder()
+		req, err := http.NewRequest("DELETE", fmt.Sprintf("/accounts/%d", account5.ID), nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		mux := http.NewServeMux()
+		controllers.RegisterAccountRoutes(mux, accountController)
+
+		// Act
+		mux.ServeHTTP(rr, req)
+
+		// Assert
+		if status := rr.Code; status != http.StatusOK {
+			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+		}
+		deletedAccount := models.Account{}
+		err = db.Unscoped().First(&deletedAccount, account5.ID).Error // Soft delete requires the Unscoped method to be used
+		if err != nil {
+			t.Errorf("handler returned unexpected body: got %v want %v", err, nil)
+		}
+		if !deletedAccount.DeletedAt.Valid {
+			t.Errorf("expected deleted account to have a deleted at time")
+		}
+	})
 }

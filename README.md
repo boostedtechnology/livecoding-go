@@ -15,7 +15,8 @@ Note, we are using "soft deletes" in this application, so the account will not b
 
 See reference: https://gorm.io/docs/delete.html
 
-Make sure to include a test for the new endpoint.
+Run `go test tests/account_test.go` to see if your new endpoint is working! You may need to update the test depending on
+the implementation.
 
 
 ## Task 2: Implement POST /transactions/
