@@ -9,6 +9,8 @@ const (
 	ASSET     AccountType = "ASSET"
 	LIABILITY AccountType = "LIABILITY"
 	EQUITY    AccountType = "EQUITY"
+	REVENUE   AccountType = "REVENUE"
+	EXPENSE   AccountType = "EXPENSE"
 )
 
 // Account represents a financial account in a ledger

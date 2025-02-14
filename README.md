@@ -22,7 +22,7 @@ Make sure to include a test for the new endpoint.
 
 **Context**
 
-A transaction in double entry account is a record of a financial transaction that affects at least two accounts. Each transaction has a description and a list of entries. Each entry has an account ID, a debit amount, and a credit amount. The sum of the debit amounts must equal the sum of the credit amounts.
+A transaction in double-entry accounting is a record of a financial transaction. Each transaction has a description and a list of entries. Each entry has an account ID, a debit amount, and a credit amount. Within a transaction, the sum of the debit amounts must equal the sum of the credit amounts. There must be at least two entries in a transaction.
 
 **Task**
 
@@ -45,11 +45,10 @@ Retrieve all the transactions for a given account.
 ## Task 4: Add a "balance" field to the response of GET /accounts/:id
 
 **Context**
+Each account has a "balance" based on the transactions involving the account.
 
-Each account has a balance. The "natural" state of an asset account is a non-negative debit balance and liability or equity account is a non-negative credit balance. In other words:
-
-* For Asset accounts, the balance is the sum of all the debit entries involving the account minus the sum of all the credit entries involving the account.
-* For Liability and Equity accounts, the balance is the sum of all the credit entries involving the account minus the sum of all the debit entries involving the account.
+* For Asset and Expense accounts, the balance is the sum of all the debit entries involving the account minus the sum of all the credit entries involving the account.
+* For Liability, Equity, and Revenue accounts, the balance is the sum of all the credit entries involving the account minus the sum of all the debit entries involving the account.
 
 **Task**
 
