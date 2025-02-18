@@ -9,6 +9,7 @@ import (
 
 	"boosted/livecoding/controllers"
 	"boosted/livecoding/models"
+	"boosted/livecoding/routes"
 	"boosted/livecoding/services"
 )
 
@@ -25,6 +26,9 @@ func main() {
 	accountService := services.NewAccountService(db)
 	accountController := controllers.NewAccountController(accountService)
 
+	transactionsService := services.NewTransactionsService(db)
+	transactionsController := controllers.NewTransactionsController(transactionsService)
+
 	// Set up router
 	r := http.NewServeMux()
 
@@ -35,7 +39,8 @@ func main() {
 	})
 
 	// Register account routes
-	controllers.RegisterAccountRoutes(r, accountController)
+	routes.RegisterAccountRoutes(r, accountController)
+	routes.RegisterTransactionsRoutes(r, transactionsController)
 
 	// Start server
 	log.Println("Server is running on port 8080")

@@ -11,6 +11,7 @@ import (
 
 	"boosted/livecoding/controllers"
 	"boosted/livecoding/models"
+	"boosted/livecoding/routes"
 	"boosted/livecoding/services"
 
 	"gorm.io/driver/sqlite"
@@ -49,7 +50,7 @@ func TestAccounts(t *testing.T) {
 		}
 
 		mux := http.NewServeMux()
-		controllers.RegisterAccountRoutes(mux, accountController)
+		routes.RegisterAccountRoutes(mux, accountController)
 
 		// Act
 		mux.ServeHTTP(rr, req)
@@ -69,7 +70,7 @@ func TestAccounts(t *testing.T) {
 		}
 
 		mux := http.NewServeMux()
-		controllers.RegisterAccountRoutes(mux, accountController)
+		routes.RegisterAccountRoutes(mux, accountController)
 
 		// Act
 		mux.ServeHTTP(rr, req)
@@ -95,7 +96,7 @@ func TestAccounts(t *testing.T) {
 		}
 
 		mux := http.NewServeMux()
-		controllers.RegisterAccountRoutes(mux, accountController)
+		routes.RegisterAccountRoutes(mux, accountController)
 
 		// Act
 		mux.ServeHTTP(rr, req)
@@ -134,7 +135,7 @@ func TestAccounts(t *testing.T) {
 		}
 
 		mux := http.NewServeMux()
-		controllers.RegisterAccountRoutes(mux, accountController)
+		routes.RegisterAccountRoutes(mux, accountController)
 
 		// Act
 		mux.ServeHTTP(rr, req)
@@ -168,7 +169,7 @@ func TestAccounts(t *testing.T) {
 		}
 
 		mux := http.NewServeMux()
-		controllers.RegisterAccountRoutes(mux, accountController)
+		routes.RegisterAccountRoutes(mux, accountController)
 
 		// Act
 		mux.ServeHTTP(rr, req)

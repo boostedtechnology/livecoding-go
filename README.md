@@ -1,6 +1,6 @@
 # Boosted Live Coding
 
-We are creating a simple ledger API using Go, specifically with the GORM and Gorilla Mux libraries.
+We are creating a simple ledger API using Go, specifically with the GORM library for database operations.
 
 
 1. Clone the repository
@@ -11,7 +11,10 @@ We are creating a simple ledger API using Go, specifically with the GORM and Gor
 ## Task 1: Implement DELETE /accounts/:id endpoint
 
 We want to be able to delete an account by its ID. Add a new endpoint to the controller to delete an account by its ID.
-Note, we are using "soft deletes" in this application, so the account will not be deleted from the database, but will be marked as deleted.
+Upon successful deletion, return 200 OK with the deleted account in the body.
+
+GORM uses "soft deletes" by default, so the account will not be deleted from the database, but will be marked as deleted. This is likely not
+relevant to the task, but just something to note.
 
 See reference: https://gorm.io/docs/delete.html
 
@@ -27,9 +30,9 @@ A transaction in double-entry accounting is a record of a financial transaction.
 
 **Task**
 
-Create the service, controller, and routes for the POST /transactions endpoint.
+Create the service, controller, and routes for the POST /transactions endpoint. Upon successful creation, return 204 No Content.
 
-* Only worry about the POST endpoint for now. The other CRUD operations do not need to be implemented.
+* Only worry about the POST endpoint. The other CRUD operations do not need to be implemented.
 
 * The models are already created for Transaction and Entry. You may want or need to add GORM tags to improve performance (e.g. indexes, foreign keys, etc. - https://gorm.io/docs/indexes.html).
 
@@ -40,17 +43,17 @@ You can decide how to structure the request body, but the following is potential
   "description": "Office supplies at Staples",
   "entries": [
     {
-      "accountId": "a018f63f-3794-4927-90fa-b62f26892203",
+      "accountId": 1,
       "type": "DEBIT",
       "amount": 12456
     },
     {
-      "accountId": "ee51e463-f4f9-4ddf-a2b3-af8e196f851f",
+      "accountId": 45,
       "type": "CREDIT",
       "amount": 10000
     },
     {
-      "accountId": "d9e645c9-ff24-4360-9cde-c31fcffa76dc",
+      "accountId": 23,
       "type": "CREDIT",
       "amount": 2456
     }
@@ -58,14 +61,10 @@ You can decide how to structure the request body, but the following is potential
 }
 ```
 
-## Task 3: Implement GET /accounts/:id/transactions/
-
-Retrieve all the transactions for a given account.
-
-
-## Task 4: Add a "balance" field to the response of GET /accounts/:id
+## Task 3: Add a "balance" field to the response of GET /accounts/:id
 
 **Context**
+
 Each account has a "balance" based on the transactions involving the account.
 
 * For Asset and Expense accounts, the balance is the sum of all the debit entries involving the account minus the sum of all the credit entries involving the account.
@@ -74,6 +73,11 @@ Each account has a "balance" based on the transactions involving the account.
 **Task**
 
 On the response of GET /accounts/:id, add a "balance" field on the response.
+
+
+## Task 4: Implement GET /accounts/:id/transactions/
+
+Retrieve all the transactions for a given account.
 
 
 ## Task 5: Prevent deletion of accounts with non-zero balance
